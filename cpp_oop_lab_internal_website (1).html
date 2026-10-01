@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C++ OOP Lab Internal — 36 Questions</title>
+<style>
+:root{
+  --bg:#f5f7fb;--card:#fff;--text:#182033;--muted:#667085;
+  --primary:#4f46e5;--primary2:#7c3aed;--border:#e5e7eb;
+  --code:#111827;--success:#059669;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+.hero{
+  background:linear-gradient(135deg,#111827,#312e81 55%,#6d28d9);
+  color:white;padding:42px 20px 70px;position:relative;overflow:hidden
+}
+.hero:after{content:"";position:absolute;width:360px;height:360px;border-radius:50%;
+background:rgba(255,255,255,.07);right:-100px;top:-120px}
+.container{max-width:1180px;margin:auto;padding:0 18px}
+.badge{display:inline-block;background:rgba(255,255,255,.13);padding:7px 12px;border-radius:999px;font-size:13px}
+h1{font-size:clamp(30px,5vw,52px);margin:16px 0 8px;line-height:1.05}
+.hero p{color:#e5e7eb;max-width:720px;font-size:16px;line-height:1.6}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.meta span{background:rgba(255,255,255,.1);padding:9px 12px;border-radius:10px;font-size:13px}
+.toolbar{margin-top:-28px;position:relative;z-index:2}
+.toolbar-inner{background:var(--card);border:1px solid var(--border);border-radius:18px;
+box-shadow:0 12px 35px rgba(16,24,40,.12);padding:16px;display:flex;gap:10px;flex-wrap:wrap}
+input,select,button{font:inherit}
+input,select{border:1px solid var(--border);border-radius:11px;padding:11px 13px;background:white;color:var(--text)}
+input{flex:1;min-width:230px}
+button{border:0;border-radius:10px;padding:10px 13px;cursor:pointer;font-weight:600}
+.primary{background:var(--primary);color:white}.secondary{background:#eef2ff;color:#3730a3}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+.stat{background:var(--card);border:1px solid var(--border);padding:17px;border-radius:14px}
+.stat b{font-size:25px;display:block}.stat small{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;padding-bottom:50px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;
+box-shadow:0 3px 12px rgba(16,24,40,.04)}
+.card-head{padding:18px;display:flex;gap:13px;align-items:flex-start}
+.num{min-width:38px;height:38px;border-radius:11px;background:#eef2ff;color:#4338ca;
+display:grid;place-items:center;font-weight:800}
+.card h2{font-size:17px;margin:1px 0 7px}.tag{font-size:11px;color:var(--muted)}
+.answer{border-top:1px solid var(--border);padding:17px;background:#fbfcff}
+.answer h3{font-size:14px;margin:0 0 9px}.answer p{line-height:1.55;margin:8px 0}
+pre{background:var(--code);color:#e5e7eb;border-radius:12px;padding:15px;overflow:auto;
+font-size:13px;line-height:1.55;position:relative}
+.copy{float:right;background:#374151;color:#fff;font-size:11px;padding:6px 8px}
+.output-box{background:#0b1220;border:1px solid #374151;color:#86efac;margin-top:8px}.tip{background:#ecfdf5;border-left:4px solid var(--success);padding:10px 12px;border-radius:8px;
+font-size:13px;margin-top:10px}
+.footer{text-align:center;color:var(--muted);padding:28px}
+.empty{grid-column:1/-1;text-align:center;padding:50px;background:white;border-radius:16px;border:1px solid var(--border)}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="container">
+    <span class="badge">Aditya University • Lab Internal Preparation</span>
+    <h1>C++ OOP Lab — 36 Questions</h1>
+    <p>Interactive exam-preparation website with question-wise explanations, C++ programs, search, topic filters and copy-code buttons.</p>
+    <div class="meta">
+      <span>Object Oriented Programming through C++</span>
+      <span>Course: 2501CS08</span>
+      <span>II Year • 3rd Sem</span>
+      <span>Exam: 06/10/2026</span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="toolbar">
+    <div class="toolbar-inner">
+      <input id="search" placeholder="Search question, topic or keyword..." oninput="render()">
+      <select id="category" onchange="render()">
+        <option value="all">All Topics</option>
+        <option value="basics">Basics & Functions</option>
+        <option value="constructors">Constructors</option>
+        <option value="operators">Operator Overloading</option>
+        <option value="inheritance">Inheritance</option>
+        <option value="polymorphism">Polymorphism</option>
+        <option value="templates">Templates</option>
+        <option value="exceptions">Exceptions</option>
+        <option value="stl">STL</option>
+      </select>
+      <button class="secondary" onclick="expandAll()">Expand All</button>
+      <button class="secondary" onclick="collapseAll()">Collapse All</button>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><b>36</b><small>Total Questions</small></div>
+    <div class="stat"><b id="shown">36</b><small>Questions Shown</small></div>
+    <div class="stat"><b>8</b><small>Major Topics</small></div>
+    <div class="stat"><b>C++</b><small>Programming Language</small></div>
+  </section>
+
+  <section id="cards" class="grid"></section>
+</main>
+
+<footer class="footer">C++ OOP Lab Internal Preparation • Study, practice, compile, and understand the logic.</footer>
+
+<script>
+const Q = [
+["basics","Find the roots of a quadratic equation.",`<p>For <b>ax² + bx + c = 0</b>, calculate the discriminant <b>D = b² − 4ac</b>.</p>`,`
+#include <iostream>
+#include <cmath>
+using namespace std;
+int main() {
+    float a,b,c,d,r1,r2;
+    cin >> a >> b >> c;
+    d = b*b - 4*a*c;
+    if(d > 0){
+        r1 = (-b + sqrt(d))/(2*a);
+        r2 = (-b - sqrt(d))/(2*a);
+        cout << r1 << " " << r2;
+    } else if(d == 0){
+        cout << -b/(2*a);
+    } else cout << "Roots are imaginary";
+    return 0;
+}`],
+["basics","Find factorial of a given number using recursion.",`<p>A recursive function calls itself until the base condition <b>n == 0 or n == 1</b>.</p>`,`int factorial(int n) {
+    if(n == 0 || n == 1) return 1;
+    return n * factorial(n-1);
+}
+
+int main() {
+    int n;
+    cin >> n;
+    cout << factorial(n);
+}`],
+["basics","Implement scope resolution.",`<p>The <b>::</b> operator accesses a global variable or defines a class member function outside the class.</p>`,`#include <iostream>
+using namespace std;
+
+int x = 100;
+
+class Test {
+public:
+    int x = 50;
+    void display();
+};
+
+void Test::display() {
+    cout << "Class x = " << x << endl;
+    cout << "Global x = " << ::x;
+}
+
+int main() {
+    Test t;
+    t.display();
+}`],
+["basics","Implement namespaces.",`<p>A namespace prevents name conflicts between identifiers with the same name.</p>`,`#include <iostream>
+using namespace std;
+
+namespace First { int x = 10; }
+namespace Second { int x = 20; }
+
+int main() {
+    cout << First::x << endl;
+    cout << Second::x;
+}`],
+["basics","Illustrate the use of default arguments.",`<p>A default argument is used when a caller does not provide that parameter.</p>`,`#include <iostream>
+using namespace std;
+
+void display(int a, int b = 10) {
+    cout << a + b << endl;
+}
+
+int main() {
+    display(5);
+    display(5, 20);
+}`],
+["basics","Illustrate the use of access specifiers.",`<p>C++ provides <b>private</b>, <b>protected</b>, and <b>public</b> access control.</p>`,`#include <iostream>
+using namespace std;
+
+class Student {
+private:
+    int marks;
+public:
+    void setMarks(int m) { marks = m; }
+    void display() { cout << marks; }
+};
+
+int main() {
+    Student s;
+    s.setMarks(90);
+    s.display();
+}`],
+["basics","Program to illustrate inline functions.",`<p>An inline function can reduce function-call overhead for small functions.</p>`,`#include <iostream>
+using namespace std;
+
+inline int square(int x) {
+    return x * x;
+}
+
+int main() {
+    cout << square(5);
+}`],
+["basics","Program to illustrate function overloading.",`<p>Function overloading uses the same function name with different parameter lists.</p>`,`#include <iostream>
+using namespace std;
+
+int add(int a,int b){ return a+b; }
+float add(float a,float b){ return a+b; }
+
+int main(){
+    cout << add(10,20) << endl;
+    cout << add(2.5f,3.5f);
+}`],
+["basics","Program to illustrate friend function.",`<p>A friend function is not a member of the class but can access its private/protected members.</p>`,`#include <iostream>
+using namespace std;
+
+class Test {
+    int x = 100;
+public:
+    friend void display(Test t);
+};
+
+void display(Test t) {
+    cout << t.x;
+}
+
+int main(){
+    Test t;
+    display(t);
+}`],
+["constructors","Program to illustrate Constructors and Destructors.",`<p>The constructor runs when an object is created; the destructor runs when it is destroyed.</p>`,`#include <iostream>
+using namespace std;
+
+class Demo {
+public:
+    Demo(){ cout << "Constructor\\n"; }
+    ~Demo(){ cout << "Destructor\\n"; }
+};
+
+int main(){
+    Demo d;
+}`],
+["constructors","Program illustrating Constructor overloading.",`<p>Constructor overloading means a class has multiple constructors with different parameter lists.</p>`,`#include <iostream>
+using namespace std;
+
+class Student {
+    int age;
+public:
+    Student(){ age=0; }
+    Student(int a){ age=a; }
+    Student(int a,int b){ age=a+b; }
+    void display(){ cout << age << endl; }
+};
+
+int main(){
+    Student a,b(20),c(10,5);
+    a.display(); b.display(); c.display();
+}`],
+["constructors","Program illustrating Copy Constructor.",`<p>A copy constructor initializes a new object from an existing object.</p>`,`#include <iostream>
+using namespace std;
+
+class Student {
+    int marks;
+public:
+    Student(int m){ marks=m; }
+    Student(const Student& s){ marks=s.marks; }
+    void display(){ cout << marks; }
+};
+
+int main(){
+    Student s1(90);
+    Student s2=s1;
+    s2.display();
+}`],
+["operators","Overload Unary Operator using member function.",`<p>Here the unary <b>++</b> operator is overloaded as a class member.</p>`,`#include <iostream>
+using namespace std;
+
+class Number {
+    int x;
+public:
+    Number(int n){ x=n; }
+    void operator++(){ ++x; }
+    void display(){ cout << x; }
+};
+
+int main(){
+    Number n(10);
+    ++n;
+    n.display();
+}`],
+["operators","Overload Binary Operators using member function.",`<p>Here the binary <b>+</b> operator combines two objects.</p>`,`#include <iostream>
+using namespace std;
+
+class Number {
+    int x;
+public:
+    Number(int n){ x=n; }
+    Number operator+(Number n){ return Number(x+n.x); }
+    void display(){ cout << x; }
+};
+
+int main(){
+    Number a(10),b(20);
+    Number c=a+b;
+    c.display();
+}`],
+["operators","Overload Binary Operators using friend function.",`<p>A friend operator function can access private data of both operands.</p>`,`#include <iostream>
+using namespace std;
+
+class Number {
+    int x;
+public:
+    Number(int n){ x=n; }
+    friend Number operator+(Number a,Number b);
+    void display(){ cout << x; }
+};
+
+Number operator+(Number a,Number b){
+    return Number(a.x+b.x);
+}
+
+int main(){
+    Number a(10),b(20);
+    Number c=a+b;
+    c.display();
+}`],
+["inheritance","Implement Program for Single Inheritance.",`<p>One derived class inherits from one base class.</p>`,`#include <iostream>
+using namespace std;
+
+class Animal {
+public:
+    void eat(){ cout << "Animal eats\\n"; }
+};
+
+class Dog: public Animal {
+public:
+    void bark(){ cout << "Dog barks"; }
+};
+
+int main(){
+    Dog d;
+    d.eat();
+    d.bark();
+}`],
+["inheritance","Implement Program for Multiple Inheritances.",`<p>One derived class inherits from more than one base class.</p>`,`#include <iostream>
+using namespace std;
+
+class A { public: void showA(){ cout<<"A\\n"; } };
+class B { public: void showB(){ cout<<"B\\n"; } };
+
+class C: public A, public B {
+public:
+    void showC(){ cout<<"C"; }
+};
+
+int main(){
+    C obj;
+    obj.showA();
+    obj.showB();
+    obj.showC();
+}`],
+["inheritance","Implement Program for Multi-level inheritance.",`<p>Inheritance occurs in a chain such as <b>A → B → C</b>.</p>`,`#include <iostream>
+using namespace std;
+
+class A { public: void showA(){ cout<<"A\\n"; } };
+class B: public A { public: void showB(){ cout<<"B\\n"; } };
+class C: public B { public: void showC(){ cout<<"C"; } };
+
+int main(){
+    C obj;
+    obj.showA();
+    obj.showB();
+    obj.showC();
+}`],
+["inheritance","Implement Program for Hierarchical Inheritance.",`<p>Multiple derived classes inherit from the same base class.</p>`,`#include <iostream>
+using namespace std;
+
+class Animal { public: void eat(){ cout<<"Animal eats\\n"; } };
+class Dog: public Animal { public: void bark(){ cout<<"Dog barks\\n"; } };
+class Cat: public Animal { public: void meow(){ cout<<"Cat meows"; } };
+
+int main(){
+    Dog d; Cat c;
+    d.eat(); d.bark();
+    c.eat(); c.meow();
+}`],
+["inheritance","Implement Program for Hybrid inheritance.",`<p>Hybrid inheritance combines two or more inheritance forms.</p>`,`#include <iostream>
+using namespace std;
+
+class A { public: void showA(){ cout<<"A\\n"; } };
+class B: public A { public: void showB(){ cout<<"B\\n"; } };
+class C: public A { public: void showC(){ cout<<"C\\n"; } };
+class D: public B, public C { public: void showD(){ cout<<"D"; } };
+
+int main(){
+    D obj;
+    obj.showB();
+    obj.showC();
+    obj.showD();
+}`],
+["inheritance","Order of execution of constructors and destructors in inheritance.",`<p>Constructors execute <b>base → derived</b>. Destructors execute in the reverse order: <b>derived → base</b>.</p>`,`#include <iostream>
+using namespace std;
+
+class A {
+public:
+    A(){ cout<<"A Constructor\\n"; }
+    ~A(){ cout<<"A Destructor\\n"; }
+};
+class B: public A {
+public:
+    B(){ cout<<"B Constructor\\n"; }
+    ~B(){ cout<<"B Destructor\\n"; }
+};
+class C: public B {
+public:
+    C(){ cout<<"C Constructor\\n"; }
+    ~C(){ cout<<"C Destructor\\n"; }
+};
+
+int main(){ C obj; }`],
+["basics","Illustrate the use of object as a class member.",`<p>An object of one class can be declared as a data member of another class.</p>`,`#include <iostream>
+using namespace std;
+
+class Address {
+public:
+    void display(){ cout<<"Hyderabad"; }
+};
+
+class Student {
+    Address addr;
+public:
+    void display(){ addr.display(); }
+};
+
+int main(){
+    Student s;
+    s.display();
+}`],
+["basics","Illustrate the use of pointer to a class.",`<p>A pointer can store the address of an object. Use <b>-></b> to access members through it.</p>`,`#include <iostream>
+using namespace std;
+
+class Student {
+public:
+    int marks;
+    void display(){ cout<<marks; }
+};
+
+int main(){
+    Student s;
+    Student *ptr=&s;
+    ptr->marks=90;
+    ptr->display();
+}`],
+["basics","Illustrate the use of this pointer.",`<p><b>this</b> points to the current object. It is useful when parameter and data-member names are the same.</p>`,`#include <iostream>
+using namespace std;
+
+class Student {
+    int marks;
+public:
+    void setMarks(int marks){
+        this->marks=marks;
+    }
+    void display(){ cout<<this->marks; }
+};
+
+int main(){
+    Student s;
+    s.setMarks(95);
+    s.display();
+}`],
+["inheritance","Illustrate the use of Virtual Base Class.",`<p>A virtual base class helps ensure that only one shared copy of the common base class exists in diamond inheritance.</p>`,`#include <iostream>
+using namespace std;
+
+class A { public: int x=10; };
+class B: virtual public A {};
+class C: virtual public A {};
+class D: public B, public C {
+public:
+    void display(){ cout<<x; }
+};
+
+int main(){
+    D obj;
+    obj.display();
+}`],
+["polymorphism","Illustrate the use of virtual functions.",`<p>A virtual function enables runtime polymorphism when a base-class pointer refers to a derived object.</p>`,`#include <iostream>
+using namespace std;
+
+class Animal {
+public:
+    virtual void sound(){ cout<<"Animal sound"; }
+};
+
+class Dog: public Animal {
+public:
+    void sound() override { cout<<"Dog barks"; }
+};
+
+int main(){
+    Animal *ptr;
+    Dog d;
+    ptr=&d;
+    ptr->sound();
+}`],
+["polymorphism","Implement pure virtual function and calculate the area of different shapes by using abstract class.",`<p>A pure virtual function is declared with <b>= 0</b>. A class containing it is abstract.</p>`,`#include <iostream>
+using namespace std;
+
+class Shape {
+public:
+    virtual void area()=0;
+};
+
+class Circle: public Shape {
+public:
+    void area() override {
+        float r=5;
+        cout<<"Circle Area = "<<3.14*r*r<<"\\n";
+    }
+};
+
+class Rectangle: public Shape {
+public:
+    void area() override {
+        float l=10,b=5;
+        cout<<"Rectangle Area = "<<l*b;
+    }
+};
+
+int main(){
+    Circle c; Rectangle r;
+    c.area(); r.area();
+}`],
+["templates","Illustrate the use of function template.",`<p>A function template lets one function work with multiple data types.</p>`,`#include <iostream>
+using namespace std;
+
+template <class T>
+T maximum(T a,T b){
+    return (a>b)?a:b;
+}
+
+int main(){
+    cout<<maximum(10,20)<<endl;
+    cout<<maximum(5.5,2.5);
+}`],
+["templates","Implement template class.",`<p>A class template lets a class operate on different data types.</p>`,`#include <iostream>
+using namespace std;
+
+template <class T>
+class Test {
+    T value;
+public:
+    Test(T v){ value=v; }
+    void display(){ cout<<value; }
+};
+
+int main(){
+    Test<int> a(100);
+    Test<float> b(10.5);
+    a.display();
+    cout<<endl;
+    b.display();
+}`],
+["templates","Implement class templates with multiple parameters.",`<p>A class template can accept more than one type parameter.</p>`,`#include <iostream>
+using namespace std;
+
+template <class T,class U>
+class Test {
+    T a; U b;
+public:
+    Test(T x,U y){ a=x; b=y; }
+    void display(){
+        cout<<"A = "<<a<<endl;
+        cout<<"B = "<<b;
+    }
+};
+
+int main(){
+    Test<int,float> obj(10,20.5);
+    obj.display();
+}`],
+["exceptions","Implement Exceptions handling.",`<p>Use <b>try</b> for risky code, <b>throw</b> to raise an exception, and <b>catch</b> to handle it.</p>`,`#include <iostream>
+using namespace std;
+
+int main(){
+    int a,b;
+    cin>>a>>b;
+    try{
+        if(b==0) throw b;
+        cout<<a/b;
+    }
+    catch(int){
+        cout<<"Division by zero is not allowed";
+    }
+}`],
+["exceptions","Illustrate the use of multiple catch statements.",`<p>Multiple catch blocks can handle different exception types.</p>`,`#include <iostream>
+using namespace std;
+
+int main(){
+    try{
+        int choice;
+        cin>>choice;
+        if(choice==1) throw 10;
+        else throw 'A';
+    }
+    catch(int x){
+        cout<<"Integer exception: "<<x;
+    }
+    catch(char x){
+        cout<<"Character exception: "<<x;
+    }
+}`],
+["stl","Implement List and its Operations.",`<p><b>list</b> supports insertion/removal at both ends and is useful for linked-list style operations.</p>`,`#include <iostream>
+#include <list>
+using namespace std;
+
+int main(){
+    list<int> l;
+    l.push_back(10);
+    l.push_back(20);
+    l.push_front(5);
+
+    for(int x:l) cout<<x<<" ";
+
+    l.pop_front();
+    l.pop_back();
+
+    cout<<"\\nAfter deletion: ";
+    for(int x:l) cout<<x<<" ";
+}`],
+["stl","Implement Vector and its Operations.",`<p><b>vector</b> is a dynamic array. Common operations include push_back, pop_back and size.</p>`,`#include <iostream>
+#include <vector>
+using namespace std;
+
+int main(){
+    vector<int> v;
+    v.push_back(10);
+    v.push_back(20);
+    v.push_back(30);
+
+    for(int x:v) cout<<x<<" ";
+    cout<<"\\nSize = "<<v.size();
+
+    v.pop_back();
+}`],
+["stl","Implement Deque and its Operations.",`<p><b>deque</b> means double-ended queue and allows insertion/removal at both front and back.</p>`,`#include <iostream>
+#include <deque>
+using namespace std;
+
+int main(){
+    deque<int> d;
+    d.push_back(20);
+    d.push_front(10);
+    d.push_back(30);
+
+    for(int x:d) cout<<x<<" ";
+
+    d.pop_front();
+    d.pop_back();
+}`],
+["stl","Implement Map and its Operations.",`<p><b>map</b> stores key-value pairs. Useful operations include insert, access, erase, find and size.</p>`,`#include <iostream>
+#include <map>
+using namespace std;
+
+int main(){
+    map<int,string> students;
+    students[1]="Harish";
+    students[2]="Mahi";
+    students[3]="Jagadeesh";
+
+    for(auto x:students)
+        cout<<x.first<<" -> "<<x.second<<endl;
+
+    cout<<"Student 2 = "<<students[2];
+}`]
+];
+
+const labels={
+basics:"Basics & Functions",constructors:"Constructors",operators:"Operator Overloading",
+inheritance:"Inheritance",polymorphism:"Polymorphism",templates:"Templates",
+exceptions:"Exception Handling",stl:"STL"
+};
+
+function esc(s){return s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");}
+const OUTPUTS = [`Sample Input:\n1 -3 2\n\nSample Output:\n2 1`, `Sample Input:\n5\n\nSample Output:\n120`, `Sample Output:\nClass x = 50\nGlobal x = 100`, `Sample Output:\n10\n20`, `Sample Output:\n15\n25`, `Sample Output:\n90`, `Sample Output:\n25`, `Sample Output:\n30\n6`, `Sample Output:\n100`, `Sample Output:\nConstructor\nDestructor`, `Sample Output:\n0\n20\n15`, `Sample Output:\n90`, `Sample Output:\n11`, `Sample Output:\n30`, `Sample Output:\n30`, `Sample Output:\nAnimal eats\nDog barks`, `Sample Output:\nA\nB\nC`, `Sample Output:\nA\nB\nC`, `Sample Output:\nAnimal eats\nDog barks\nAnimal eats\nCat meows`, `Sample Output:\nB\nC\nD`, `Sample Output:\nA Constructor\nB Constructor\nC Constructor\nC Destructor\nB Destructor\nA Destructor`, `Sample Output:\nHyderabad`, `Sample Output:\n90`, `Sample Output:\n95`, `Sample Output:\n10`, `Sample Output:\nDog barks`, `Sample Output:\nCircle Area = 78.5\nRectangle Area = 50`, `Sample Output:\n20\n5.5`, `Sample Output:\n100\n10.5`, `Sample Output:\nA = 10\nB = 20.5`, `Sample Input:\n10 2\n\nSample Output:\n5`, `Sample Input:\n1\n\nSample Output:\nInteger exception: 10`, `Sample Output:\n5 10 20\nAfter deletion: 10`, `Sample Output:\n10 20 30\nSize = 3`, `Sample Output:\n10 20 30`, `Sample Output:\n1 -> Harish\n2 -> Mahi\n3 -> Jagadeesh\nStudent 2 = Mahi`];
+
+function render(){
+  const term=document.getElementById("search").value.toLowerCase().trim();
+  const cat=document.getElementById("category").value;
+  const cards=document.getElementById("cards");
+  const filtered=Q.map((q,i)=>({...q,i})).filter(q=>{
+    const matchesCat=cat==="all"||q[0]===cat;
+    const matchesTerm=!term||q[1].toLowerCase().includes(term)||q[2].toLowerCase().includes(term)||q[3].toLowerCase().includes(term);
+    return matchesCat&&matchesTerm;
+  });
+  document.getElementById("shown").textContent=filtered.length;
+  if(!filtered.length){cards.innerHTML='<div class="empty"><h2>No questions found</h2><p>Try another keyword or choose “All Topics”.</p></div>';return;}
+  cards.innerHTML=filtered.map(q=>`
+    <article class="card">
+      <div class="card-head">
+        <div class="num">${q.i+1}</div>
+        <div style="flex:1">
+          <h2>${q[1]}</h2>
+          <div class="tag">${labels[q[0]]}</div>
+        </div>
+        <button class="secondary" onclick="toggle(this)">Show</button>
+      </div>
+      <div class="answer" style="display:none">
+        <h3>Explanation</h3>
+        ${q[2]}
+        <h3 style="margin-top:16px">C++ Program</h3>
+        <button class="copy" onclick="copyCode(this)">Copy Code</button>
+        <pre>${esc(q[3])}</pre>
+        <h3 style="margin-top:16px">Sample Output</h3>
+        <pre class="output-box">${esc(OUTPUTS[q.i])}</pre>
+        <div class="tip"><b>Exam tip:</b> Write the program, compile it, test with sample input, and be ready to explain the main concept.</div>
+      </div>
+    </article>`).join("");
+}
+function toggle(btn){
+  const ans=btn.closest(".card").querySelector(".answer");
+  const open=ans.style.display!=="none";
+  ans.style.display=open?"none":"block";
+  btn.textContent=open?"Show":"Hide";
+}
+function expandAll(){
+  document.querySelectorAll(".answer").forEach(x=>x.style.display="block");
+  document.querySelectorAll(".card-head button").forEach(x=>x.textContent="Hide");
+}
+function collapseAll(){
+  document.querySelectorAll(".answer").forEach(x=>x.style.display="none");
+  document.querySelectorAll(".card-head button").forEach(x=>x.textContent="Show");
+}
+function copyCode(btn){
+  const pre=btn.nextElementSibling;
+  navigator.clipboard.writeText(pre.textContent);
+  const old=btn.textContent; btn.textContent="Copied!";
+  setTimeout(()=>btn.textContent=old,1200);
+}
+render();
+</script>
+</body>
+</html>
